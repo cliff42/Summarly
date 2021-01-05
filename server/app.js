@@ -4,28 +4,30 @@ const cors = require("cors");
 const path = require('path');
 const bodyParser = require("body-parser");
 const app = express();
-app.use(cors());
 const port = 3000;
 
-const fileFilter = (req, file, cb) => {
-    const allowedTypes = ["application/pdf"];
-    if (!allowedTypes.includes(file.mimetype)) {
-      const error = new Error("Incorrect file");
-      error.code = "INCORRECT_FILETYPE";
-      return cb(error, false)
-    }
-    cb(null, true);
-  }
-  
-  const upload = multer({
-    dest: './uploads',
-    fileFilter,
-    limits: {
-      fileSize: 5000000
-    }
-  });
-
 app.use(bodyParser.json());
+app.use(cors());
+
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = ["application/pdf"];
+
+  if (!allowedTypes.includes(file.mimetype)) {
+    const error = new Error("Incorrect file");
+    error.code = "INCORRECT_FILETYPE";
+    return cb(error, false)
+  }
+  cb(null, true);
+};
+  
+const upload = multer({
+  dest: './uploads',
+  fileFilter,
+  limits: {
+    fileSize: 5000000
+  }
+});
+
 // app.use(express.static(path.join(__dirname, '../app/dist/')));
 
 // app.get('/', (req,res) => {
