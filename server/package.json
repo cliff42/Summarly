@@ -7,11 +7,15 @@
     "dev": "node ./app.js"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^7.10.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "multer": "^1.4.2"
+    "express-async-handler": "^1.1.4",
+    "multer": "^1.4.2",
+    "pdf-lib": "^1.14.1"
   },
   "devDependencies": {
+    "nodemon": "^2.0.6",
     "webpack": "^5.6.0",
     "webpack-cli": "^4.2.0"
   },
