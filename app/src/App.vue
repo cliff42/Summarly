@@ -3,8 +3,21 @@
     <router-link to="/">Main</router-link> |
     <router-link to="/upload">Upload</router-link>
   </div>
+  <div id="app">
+    <file-upload />
+  </div>
   <router-view/>
 </template>
+
+<script>
+import FileUpload from './components/FileUpload.vue'
+export default {
+  name: 'app',
+  components: {
+    FileUpload
+  }
+}
+</script>
 
 <style>
 #app {
