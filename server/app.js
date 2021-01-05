@@ -1,8 +1,8 @@
 const express = require('express');
-const multer = require("multer");
-const cors = require("cors");
+const multer = require('multer');
+const cors = require('cors');
 const path = require('path');
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
@@ -10,11 +10,11 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = ["application/pdf"];
+  const allowedTypes = ['application/pdf'];
 
   if (!allowedTypes.includes(file.mimetype)) {
-    const error = new Error("Incorrect file");
-    error.code = "INCORRECT_FILETYPE";
+    const error = new Error('Incorrect file');
+    error.code = 'INCORRECT_FILETYPE';
     return cb(error, false)
   }
   cb(null, true);
@@ -39,12 +39,11 @@ app.post('/upload', upload.single('file'), (req, res) => {
 });
   
 app.use((err, req, res, next) => {
-    if (err.code === "INCORRECT_FILETYPE") {
+    if (err.code === 'INCORRECT_FILETYPE') {
       res.status(422).json({ error: 'Only pdfs are allowed' });
       return;
-    }
-    if (err.code === "LIMIT_FILE_SIZE") {
-      res.status(422).json({ error: 'Allow file size is 500KB' });
+    } else if (err.code === 'LIMIT_FILE_SIZE') {
+      res.status(422).json({ error: 'Max file size is 500KB' });
       return;
     }
 });
