@@ -1,18 +1,21 @@
 <template>
-  <div>
+  <div class="upload">
     <h1>Upload page</h1>
-    <div class="file">
+    <div class="file-uploader">
    <form @submit.prevent="onSubmit" enctype="multipart/form-data">
-      <div class="fields">
+      <div class="text">
         <label>Upload File</label><br/>
-        <input 
-          type="file"
-          ref="file"
-          @change="onSelect"
-        />
+        <label class="file-input">
+          <input
+            type="file"
+            ref="file"
+            @change="onSelect"
+          />
+          Custom Upload
+        </label>
       </div>
-      <div class="fields">
-        <button>Submit</button>
+      <div>
+        <button class="submit-button">Submit</button>
       </div>
       <div class="message">
         <h5>{{message}}</h5>
@@ -24,8 +27,12 @@
 
 <script>
 import axios from 'axios';
+import FileUploader from '@/components/FileUploader.vue';
 export default {
   name: 'FileUpload',
+  components: {
+    FileUploader
+  },
   data() {
     return {
       file:"",
@@ -59,3 +66,7 @@ export default {
   },
 }
 </script>
+
+<style lang="less">
+@import './Upload.less';
+</style>
