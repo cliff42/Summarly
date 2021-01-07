@@ -49,7 +49,9 @@ app.post('/upload', upload.single('file'), (req, res) => {
     // res.json({ file: req.file });
     fs.readdir(uploadsFolder, (err, files) => {
         files.forEach(file => {
-            fileList.push(file);
+            if (file != '.DS_Store' && !fileList.includes(file)) {
+                fileList.push(file);
+            }
         });
     });
     console.log(fileList);

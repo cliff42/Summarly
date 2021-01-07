@@ -60,9 +60,10 @@ export default {
       this.file = file;
       if(!allowedTypes.includes(file.type)){
         this.message = "Filetype is wrong (pdf required)"
-      }
-      if(file.size>500000){
+      } else if(file.size>500000){
         this.message = 'Too large, max size allowed is 500kb'
+      } else {
+        this.message = '';
       }
     },
     async onSubmit(){
