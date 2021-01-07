@@ -29,6 +29,10 @@
       <div class="message">
         <h5>{{message}}</h5>
       </div>
+      <div class="uploaded-files">
+        <label>Uploaded Files:</label>
+        <h5>{{files.data}}</h5>
+      </div>
    </form>
   </div>
   </div>
@@ -45,7 +49,8 @@ export default {
   data() {
     return {
       file:"",
-      message:""
+      message:"",
+      files:"",
     }
   },
   methods: {
@@ -64,7 +69,9 @@ export default {
       const formData = new FormData();
       formData.append('file',this.file);
       try{
-        await axios.post('http://localhost:3000/upload',formData);
+        this.files = await axios.post('http://localhost:3000/upload',formData);
+        // const files = await axios.get('http://localhost:3000/get-files');
+        console.log(this.files);
         this.message = 'Uploaded'
       }
       catch(err){

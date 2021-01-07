@@ -3,11 +3,16 @@ const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
+
+const uploadsFolder = './uploads';
+
+let fileList = [];
 
 const fileFilter = (req, file, cb) => {
   const allowedTypes = ['application/pdf'];
@@ -41,7 +46,14 @@ const upload = multer({
 // });
 
 app.post('/upload', upload.single('file'), (req, res) => {
-    res.json({ file: req.file });
+    // res.json({ file: req.file });
+    fs.readdir(uploadsFolder, (err, files) => {
+        files.forEach(file => {
+            fileList.push(file);
+        });
+    });
+    console.log(fileList);
+    res.json(fileList);
 });
   
 app.use((err, req, res, next) => {
@@ -57,6 +69,16 @@ app.use((err, req, res, next) => {
     //   return;
     // }
 });
+
+app.get('/get-files', (req, res) => {
+    fs.readdir(uploadsFolder, (err, files) => {
+        files.forEach(file => {
+            fileList.push(file);
+        });
+    });
+    console.log(fileList);
+    res.json(fileList);
+})
 
 app.listen(port, () => {
     console.log(`Server listening on the port::${port}`);

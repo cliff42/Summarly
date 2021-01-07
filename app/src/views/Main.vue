@@ -48,14 +48,7 @@ export default defineComponent({
         description: 'Test description 3'
       }
     ]);
-
-    // const files = require.context(
-    //   '@/server/uploads',
-    //   true,
-    //   /^.*\.pdf$/
-    // )
-    // console.log(files);
-
+    
     return {
       testKeywords,
       testSearchResults
