@@ -75,7 +75,9 @@ app.use((err, req, res, next) => {
 app.get('/get-files', (req, res) => {
     fs.readdir(uploadsFolder, (err, files) => {
         files.forEach(file => {
-            fileList.push(file);
+            if (file != '.DS_Store' && !fileList.includes(file)) {
+                fileList.push(file);
+            }
         });
     });
     console.log(fileList);
