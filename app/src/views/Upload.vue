@@ -32,6 +32,7 @@
       <div class="uploaded-files">
         <label>Uploaded Files:</label>
         <h5>{{files.data}}</h5>
+        <!-- <ul class="file-list"></ul> -->
       </div>
    </form>
   </div>
@@ -72,14 +73,22 @@ export default {
       try{
         this.files = await axios.post('http://localhost:3000/upload',formData);
         // const files = await axios.get('http://localhost:3000/get-files');
-        console.log(this.files);
         this.message = 'Uploaded'
       }
       catch(err){
         console.log(err);
         this.message = err.response.data.error
       }
-    }
+    },
+    // createList(){
+    //   const list = document.getElementsByClassName('upload-list');
+    //   this.files.forEach(file => {
+    //     console.log(file);
+    //     const entry = document.createElement('li');
+    //     entry.appendChild(document.createTextNode(file));
+    //     list.appendChild(entry);
+    //   })
+    // }
   },
 }
 </script>
