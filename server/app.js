@@ -12,6 +12,12 @@ app.use(cors());
 const fileFilter = (req, file, cb) => {
   const allowedTypes = ['application/pdf'];
 
+//   if(file[0].files.length === 0) {
+//     const error = new Error('No File');
+//     error.code = 'NO_FILE';
+//     return cb(error, false)
+//   }
+
   if (!allowedTypes.includes(file.mimetype)) {
     const error = new Error('Incorrect file');
     error.code = 'INCORRECT_FILETYPE';
@@ -45,7 +51,11 @@ app.use((err, req, res, next) => {
     } else if (err.code === 'LIMIT_FILE_SIZE') {
       res.status(422).json({ error: 'Max file size is 500KB' });
       return;
-    }
+    } 
+    // else if (err.code === 'NO_FILE') {
+    //   res.status(422).json({ error: 'Please Select a File' });
+    //   return;
+    // }
 });
 
 app.listen(port, () => {

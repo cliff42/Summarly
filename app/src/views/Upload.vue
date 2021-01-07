@@ -4,18 +4,27 @@
     <div class="file-uploader">
    <form @submit.prevent="onSubmit" enctype="multipart/form-data">
       <div class="text">
-        <label>Upload File</label><br/>
+        <!-- <label>Upload File</label><br/> -->
         <label class="file-input">
           <input
             type="file"
             ref="file"
             @change="onSelect"
           />
-          Custom Upload
+          Upload File
         </label>
+        <br/>
+        <div class="chosen-file">
+          <label>
+            Chosen File: <h5>{{file.name}}</h5>
+          </label>
+        </div>
       </div>
       <div>
-        <button class="submit-button">Submit</button>
+        <label class="submit">
+          <button class="submit-button">Submit</button>
+          Submit
+        </label>
       </div>
       <div class="message">
         <h5>{{message}}</h5>

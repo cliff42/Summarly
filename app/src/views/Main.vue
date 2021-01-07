@@ -49,11 +49,18 @@ export default defineComponent({
       }
     ]);
 
+    // const files = require.context(
+    //   '@/server/uploads',
+    //   true,
+    //   /^.*\.pdf$/
+    // )
+    // console.log(files);
+
     return {
       testKeywords,
       testSearchResults
     };
-  }
+  },
 });
 </script>
 
