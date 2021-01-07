@@ -5,14 +5,16 @@ const { Client } = require('@elastic/elasticsearch');
 const { PDFDocument } = require('pdf-lib');
 
 const esclient = new Client({ node: 'http://localhost:9200' });
+const index = 'vue-upload-test';
 
 const indexPdfPage = function (id, page, pageNumber) { // all ES functions should later go in its own service
   esclient.index({
-    index: 'vue-upload-test',
+    index: index,
     id: id,
     body: {
       data: page,
-      page: pageNumber
+      doc_name: "GET-NAME-FROM-PARAMS", // will need to be keyword, not text in mapping
+      doc_page: pageNumber
     },
     pipeline: 'attachment'
   });
@@ -20,7 +22,7 @@ const indexPdfPage = function (id, page, pageNumber) { // all ES functions shoul
 
 exports.indexPdfPages = async function (file) { // TODO: file names
   const buffer = await fs.promises.readFile(file);
-  const pdfDoc = await PDFDocument.load(buffer); // will this work?
+  const pdfDoc = await PDFDocument.load(buffer); // TODO: skip using files
   const length = pdfDoc.getPages().length;
 
   for (let i=0; i < length; ++i) {
@@ -31,4 +33,17 @@ exports.indexPdfPages = async function (file) { // TODO: file names
 
     indexPdfPage(`GET-NAME-FROM-PARAMS-${i+1}`, currentPageDocBytes, i+1);
   }
+};
+
+exports.deletePdfPages = async function (fileName) {
+  esclient.deleteByQuery({
+    index: index,
+    body: {
+      query: {
+        term: {
+          doc_name: fileName
+        }
+      }
+    }
+  });
 };
