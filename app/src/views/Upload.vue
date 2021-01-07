@@ -41,12 +41,8 @@
 
 <script>
 import axios from 'axios';
-import FileUploader from '@/components/FileUploader.vue';
 export default {
   name: 'FileUpload',
-  components: {
-    FileUploader
-  },
   data() {
     return {
       file:"",
