@@ -48,12 +48,12 @@ export default defineComponent({
         description: 'Test description 3'
       }
     ]);
-
+    
     return {
       testKeywords,
       testSearchResults
     };
-  }
+  },
 });
 </script>
 

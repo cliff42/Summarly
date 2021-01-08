@@ -22,7 +22,7 @@ const upload = multer({
   dest: './uploads',
   fileFilter,
   limits: {
-    fileSize: 5000000
+    fileSize: 500000
   }
 });
 
