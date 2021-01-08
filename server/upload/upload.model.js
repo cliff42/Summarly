@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs');
 const { Client } = require('@elastic/elasticsearch');
 const { PDFDocument } = require('pdf-lib');
 
