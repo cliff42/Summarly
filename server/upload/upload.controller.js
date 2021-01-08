@@ -4,13 +4,13 @@ const UploadModel = require('./upload.model');
 
 exports.uploadPdf = async function (req, res) {
   try {
-    await UploadModel.indexPdfPages(req.file.path);
+    await UploadModel.indexPdfPages(req.file.path, req.params.id);
   } catch (error) {
     console.log('Error uploading PDF: ' + error);
     return res.status(400).send('Failed to upload PDF');
   }
 
-  res.send(201);
+  res.sendStatus(201);
 };
 
 exports.deletePdf = async function (req, res) {
@@ -24,3 +24,13 @@ exports.deletePdf = async function (req, res) {
 
   res.end();
 };
+
+exports.getPdfNames = async function (req, res) {
+  try {
+    let names = await UploadModel.getPdfNames();
+    res.json(names);
+  } catch (error) {
+    console.log('Error getting PDF Names: ' + error);
+    return res.status(404).send('Failed to get PDF names'); 
+  }
+}

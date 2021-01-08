@@ -13,6 +13,13 @@
           />
           Upload File
         </label>
+        <label class="file-input">
+          <input
+            type="text"
+            ref="chosen-name"
+            id="file-text"
+          />
+        </label>
         <br/>
         <div class="chosen-file">
           <label>
@@ -67,8 +74,8 @@ export default {
       const formData = new FormData();
       formData.append('file',this.file);
       try{
-        await axios.post('http://localhost:3000/upload',formData);
-        this.files = await axios.get('http://localhost:3000/get-files');
+        await axios.post('http://localhost:3000/upload/' + document.getElementById("file-text").value ,formData);
+        this.files = await axios.get('http://localhost:3000/upload');
         this.message = 'Uploaded'
       }
       catch(err){

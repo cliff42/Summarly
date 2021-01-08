@@ -13,9 +13,9 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
-const uploadsFolder = './uploads';
+// const uploadsFolder = './uploads';
 
-let fileList = [];
+// let fileList = [];
 
 // app.use(express.static(path.join(__dirname, '../app/dist/')));
 
@@ -39,17 +39,17 @@ app.use((err, req, res, next) => {
     // }
 });
 
-app.get('/get-files', (req, res) => {
-    fs.readdir(uploadsFolder, (err, files) => {
-        files.forEach(file => {
-            if (file != '.DS_Store' && !fileList.includes(file)) {
-                fileList.push(file);
-            }
-        });
-    });
-    console.log(fileList);
-    res.json(fileList);
-})
+// app.get('/get-files', (req, res) => {
+//     fs.readdir(uploadsFolder, (err, files) => {
+//         files.forEach(file => {
+//             if (file != '.DS_Store' && !fileList.includes(file)) {
+//                 fileList.push(file);
+//             }
+//         });
+//     });
+//     console.log(fileList);
+//     res.json(fileList);
+// })
 
 app.listen(port, () => {
     console.log(`Server listening on port::${port}`);

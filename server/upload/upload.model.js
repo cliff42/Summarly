@@ -7,6 +7,8 @@ const { PDFDocument } = require('pdf-lib');
 const esclient = new Client({ node: 'http://localhost:9200' });
 const index = 'vue-upload-test';
 
+let fileNames = [];
+
 const indexPdfPage = function (id, page, pageNumber) { // all ES functions should later go in its own service
   esclient.index({
     index: index,
@@ -20,10 +22,12 @@ const indexPdfPage = function (id, page, pageNumber) { // all ES functions shoul
   });
 };
 
-exports.indexPdfPages = async function (file) { // TODO: file names
+exports.indexPdfPages = async function (file, name) { // TODO: file names
   const buffer = await fs.promises.readFile(file);
   const pdfDoc = await PDFDocument.load(buffer); // TODO: skip using files
   const length = pdfDoc.getPages().length;
+
+  fileNames.push(name);
 
   for (let i=0; i < length; ++i) {
     const currentPageDoc = await PDFDocument.create();
@@ -31,7 +35,7 @@ exports.indexPdfPages = async function (file) { // TODO: file names
     currentPageDoc.addPage(currentPage);
     const currentPageDocBytes = await currentPageDoc.saveAsBase64();
 
-    // indexPdfPage(`GET-NAME-FROM-PARAMS-${i+1}`, currentPageDocBytes, i+1);
+    indexPdfPage(`GET-NAME-FROM-PARAMS-${i+1}`, currentPageDocBytes, i+1);
   }
 };
 
@@ -47,3 +51,7 @@ exports.deletePdfPages = async function (fileName) {
     }
   });
 };
+
+exports.getPdfNames = async function () {
+  return fileNames;
+}
