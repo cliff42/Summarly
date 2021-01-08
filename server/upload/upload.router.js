@@ -6,6 +6,7 @@ const asyncHandler = require('express-async-handler');
 const UploadController = require('./upload.controller');
 
 const router = express.Router();
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   const allowedTypes = ['application/pdf'];
@@ -19,8 +20,8 @@ const fileFilter = (req, file, cb) => {
 };
   
 const upload = multer({
-  dest: './uploads',
-  fileFilter,
+  storage: storage,
+  fileFilter: fileFilter,
   limits: {
     fileSize: 500000
   }

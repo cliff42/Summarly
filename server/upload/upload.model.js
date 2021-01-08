@@ -20,9 +20,8 @@ const indexPdfPage = function (id, page, pageNumber) { // all ES functions shoul
   });
 };
 
-exports.indexPdfPages = async function (file) { // TODO: file names
-  const buffer = await fs.promises.readFile(file);
-  const pdfDoc = await PDFDocument.load(buffer); // TODO: skip using files
+exports.indexPdfPages = async function (buffer) { // TODO: file names
+  const pdfDoc = await PDFDocument.load(buffer);
   const length = pdfDoc.getPages().length;
 
   for (let i=0; i < length; ++i) {
@@ -31,7 +30,7 @@ exports.indexPdfPages = async function (file) { // TODO: file names
     currentPageDoc.addPage(currentPage);
     const currentPageDocBytes = await currentPageDoc.saveAsBase64();
 
-    // indexPdfPage(`GET-NAME-FROM-PARAMS-${i+1}`, currentPageDocBytes, i+1);
+    indexPdfPage(`GET-NAME-FROM-PARAMS-${i+1}`, currentPageDocBytes, i+1);
   }
 };
 
