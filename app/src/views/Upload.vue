@@ -68,7 +68,7 @@ export default {
       formData.append('file',this.file);
       try{
         await axios.post('http://localhost:3000/upload',formData);
-        this.files = await axios.get('http://localhost:3000/get-files');
+        // this.files = await axios.get('http://localhost:3000/get-files');
         this.message = 'Uploaded'
       }
       catch(err){

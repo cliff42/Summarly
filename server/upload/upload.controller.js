@@ -10,7 +10,7 @@ exports.uploadPdf = async function (req, res) {
     return res.status(400).send('Failed to upload PDF');
   }
 
-  res.send(201);
+  res.sendStatus(201);
 };
 
 exports.deletePdf = async function (req, res) {

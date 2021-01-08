@@ -5,7 +5,8 @@ const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const uploadRoutes = require('./upload/upload.router');
+const SearchRoutes = require('./search/search.router');
+const UploadRoutes = require('./upload/upload.router');
 
 const app = express();
 const port = 3000;
@@ -13,17 +14,14 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
-const uploadsFolder = './uploads';
-
-let fileList = [];
-
 // app.use(express.static(path.join(__dirname, '../app/dist/')));
 
 // app.get('/', (req,res) => {
 //   res.sendFile(path.join(__dirname, '../app/dist/index.html'));
 // });
 
-app.use('/upload', uploadRoutes);
+app.use('/search', SearchRoutes);
+app.use('/upload', UploadRoutes);
   
 app.use((err, req, res, next) => {
     if (err.code === 'INCORRECT_FILETYPE') {
@@ -38,18 +36,6 @@ app.use((err, req, res, next) => {
     //   return;
     // }
 });
-
-app.get('/get-files', (req, res) => {
-    fs.readdir(uploadsFolder, (err, files) => {
-        files.forEach(file => {
-            if (file != '.DS_Store' && !fileList.includes(file)) {
-                fileList.push(file);
-            }
-        });
-    });
-    console.log(fileList);
-    res.json(fileList);
-})
 
 app.listen(port, () => {
     console.log(`Server listening on port::${port}`);
