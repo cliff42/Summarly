@@ -31,7 +31,7 @@ exports.indexPdfPages = async function (file) { // TODO: file names
     currentPageDoc.addPage(currentPage);
     const currentPageDocBytes = await currentPageDoc.saveAsBase64();
 
-    indexPdfPage(`GET-NAME-FROM-PARAMS-${i+1}`, currentPageDocBytes, i+1);
+    // indexPdfPage(`GET-NAME-FROM-PARAMS-${i+1}`, currentPageDocBytes, i+1);
   }
 };
 
