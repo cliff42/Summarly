@@ -1,9 +1,12 @@
+'use strict';
+
 const express = require('express');
-const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const uploadRoutes = require('./upload/upload.router');
+
 const app = express();
 const port = 3000;
 
@@ -14,49 +17,13 @@ const uploadsFolder = './uploads';
 
 let fileList = [];
 
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = ['application/pdf'];
-
-//   if(file[0].files.length === 0) {
-//     const error = new Error('No File');
-//     error.code = 'NO_FILE';
-//     return cb(error, false)
-//   }
-
-  if (!allowedTypes.includes(file.mimetype)) {
-    const error = new Error('Incorrect file');
-    error.code = 'INCORRECT_FILETYPE';
-    return cb(error, false)
-  }
-  cb(null, true);
-};
-  
-const upload = multer({
-  dest: './uploads',
-  fileFilter,
-  limits: {
-    fileSize: 500000
-  }
-});
-
 // app.use(express.static(path.join(__dirname, '../app/dist/')));
 
 // app.get('/', (req,res) => {
 //   res.sendFile(path.join(__dirname, '../app/dist/index.html'));
 // });
 
-app.post('/upload', upload.single('file'), (req, res) => {
-    // res.json({ file: req.file });
-    fs.readdir(uploadsFolder, (err, files) => {
-        files.forEach(file => {
-            if (file != '.DS_Store' && !fileList.includes(file)) {
-                fileList.push(file);
-            }
-        });
-    });
-    console.log(fileList);
-    res.json(fileList);
-});
+app.use('/upload', uploadRoutes);
   
 app.use((err, req, res, next) => {
     if (err.code === 'INCORRECT_FILETYPE') {
@@ -85,5 +52,5 @@ app.get('/get-files', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Server listening on the port::${port}`);
+    console.log(`Server listening on port::${port}`);
 });
