@@ -8,15 +8,21 @@
         <label class="file-input">
           <input
             type="file"
-            ref="file"
             @change="onSelect"
           />
           Upload File
         </label>
+        <label class="file-input">
+          <input
+            type="text"
+            v-model="inputText"
+            required="true"
+          />
+        </label>
         <br/>
         <div class="chosen-file">
           <label>
-            Chosen File: <h5>{{file.name}}</h5>
+            Chosen File: <h5>{{chosenFileName}}</h5>
           </label>
         </div>
       </div>
@@ -31,7 +37,7 @@
       </div>
       <div class="uploaded-files">
         <label>Uploaded Files:</label>
-        <h5>{{files.data}}</h5>
+        <h5>{{fileNames.data}}</h5>
         <!-- <ul class="file-list"></ul> -->
       </div>
    </form>
@@ -40,53 +46,57 @@
 </template>
 
 <script>
+import {defineComponent, ref} from 'vue';
 import axios from 'axios';
-export default {
+
+export default defineComponent({
   name: 'FileUpload',
-  data() {
-    return {
-      file:"",
-      message:"",
-      files:"",
-    }
-  },
-  methods: {
-    onSelect(){
+
+  setup() {
+    const chosenFileName = ref('')
+    const message = ref('');
+    const fileNames = ref([]);
+    const inputText = ref('');
+
+    let file;
+
+    function onSelect(event){
       const allowedTypes = ["application/pdf"];
-      const file = this.$refs.file.files[0];
-      this.file = file;
+      console.log(event.target.files[0]);
+      file = event.target.files[0];
+      chosenFileName.value = file.name;
       if(!allowedTypes.includes(file.type)){
-        this.message = "Filetype is wrong (pdf required)"
+        message.value = "Filetype is wrong (pdf required)"
       } else if(file.size>500000){
-        this.message = 'Too large, max size allowed is 500kb'
+        message.value = 'Too large, max size allowed is 500kb'
       } else {
-        this.message = '';
+        message.value = '';
       }
-    },
-    async onSubmit(){
+    }
+    async function onSubmit(){
       const formData = new FormData();
-      formData.append('file',this.file);
+      formData.append('file',file);
       try{
-        await axios.post('http://localhost:3000/upload',formData);
-        // this.files = await axios.get('http://localhost:3000/get-files');
-        this.message = 'Uploaded'
+        await axios.post('http://localhost:3000/upload/' + inputText.value ,formData);
+        fileNames.value = await axios.get('http://localhost:3000/upload');
+        message.value = 'Uploaded'
       }
       catch(err){
         console.log(err);
-        this.message = err.response.data.error
+        message.value = err.response.data.error
       }
-    },
-    // createList(){
-    //   const list = document.getElementsByClassName('upload-list');
-    //   this.files.forEach(file => {
-    //     console.log(file);
-    //     const entry = document.createElement('li');
-    //     entry.appendChild(document.createTextNode(file));
-    //     list.appendChild(entry);
-    //   })
-    // }
+    }
+ 
+    return {
+      chosenFileName,
+      message,
+      fileNames,
+      inputText,
+      onSelect,
+      onSubmit,
+    };
   },
-}
+});
 </script>
 
 <style lang="less">

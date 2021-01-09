@@ -6,6 +6,8 @@ const { PDFDocument } = require('pdf-lib');
 const esclient = new Client({ node: 'http://localhost:9200' });
 const index = 'vue-upload-test';
 
+let fileNames = [];
+
 const indexPdfPage = function (id, page, pageNumber) { // all ES functions should later go in its own service
   esclient.index({
     index: index,
@@ -19,9 +21,11 @@ const indexPdfPage = function (id, page, pageNumber) { // all ES functions shoul
   });
 };
 
-exports.indexPdfPages = async function (buffer) { // TODO: file names
+exports.indexPdfPages = async function (buffer, name) { // TODO: file names
   const pdfDoc = await PDFDocument.load(buffer);
   const length = pdfDoc.getPages().length;
+
+  fileNames.push(name);
 
   for (let i=0; i < length; ++i) {
     const currentPageDoc = await PDFDocument.create();
@@ -45,3 +49,7 @@ exports.deletePdfPages = async function (fileName) {
     }
   });
 };
+
+exports.getPdfNames = async function () {
+  return fileNames;
+}

@@ -4,7 +4,6 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
-const fs = require('fs');
 const SearchRoutes = require('./search/search.router');
 const UploadRoutes = require('./upload/upload.router');
 
