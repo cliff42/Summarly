@@ -86,15 +86,7 @@ export default defineComponent({
         message.value = err.response.data.error
       }
     }
-    // createList(){
-    //   const list = document.getElementsByClassName('upload-list');
-    //   this.files.forEach(file => {
-    //     console.log(file);
-    //     const entry = document.createElement('li');
-    //     entry.appendChild(document.createTextNode(file));
-    //     list.appendChild(entry);
-    //   })
-    // }
+ 
     return {
       chosenFileName,
       message,
