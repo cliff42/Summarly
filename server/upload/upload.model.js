@@ -22,9 +22,8 @@ const indexPdfPage = function (id, page, pageNumber) { // all ES functions shoul
   });
 };
 
-exports.indexPdfPages = async function (file, name) { // TODO: file names
-  const buffer = await fs.promises.readFile(file);
-  const pdfDoc = await PDFDocument.load(buffer); // TODO: skip using files
+exports.indexPdfPages = async function (buffer, name) { // TODO: file names
+  const pdfDoc = await PDFDocument.load(buffer);
   const length = pdfDoc.getPages().length;
 
   fileNames.push(name);
